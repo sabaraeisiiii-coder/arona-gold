@@ -1,0 +1,1 @@
+export function OrderTimeline({steps,current}:{steps:string[];current:number}){return <ol className="order-timeline">{steps.map((step,index)=><li data-active={index<=current} key={step}>{step}</li>)}</ol>}

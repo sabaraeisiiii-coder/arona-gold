@@ -1,0 +1,4 @@
+// @vitest-environment jsdom
+import { afterEach,describe,expect,it,vi } from 'vitest';import { cleanup,render,screen } from '@testing-library/react';
+vi.mock('@/app/store/AppStore',()=>({useAppStore:()=>({addToCart:vi.fn(),toggleWishlist:vi.fn(),wishlist:[]})}));import { ProductCard } from '@/app/components/commerce/ProductCard';
+afterEach(cleanup);describe('ProductCard',()=>{it('renders product data supplied by props',()=>{render(<ProductCard product={{id:1,slug:'test-ring',sku:'TEST-1',name:'انگشتر تست',category:'انگشتر',categorySlug:'rings',description:'محصول تست',weight:'۳ گرم',karat:18,wage:12,price:12000000,oldPrice:13000000,discountPercent:8,stock:2,status:'active',images:[],accent:'#000'}}/>);expect(screen.getByText('انگشتر تست')).toBeTruthy();expect(screen.getByText(/کم‌موجود/)).toBeTruthy();expect(screen.getByRole('button',{name:/افزودن انگشتر تست/})).toBeTruthy()})});

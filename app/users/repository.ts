@@ -1,0 +1,2 @@
+import { eq } from 'drizzle-orm'; import { createDatabase } from '@/app/db/client'; import { users } from '@/app/db/schema';
+export class UserRepository{async updateProfile(userId:string,input:{firstName?:string|null;lastName?:string|null}){const[row]=await createDatabase().update(users).set({...input,updatedAt:new Date()}).where(eq(users.id,userId)).returning({id:users.id,mobile:users.mobile,firstName:users.firstName,lastName:users.lastName,status:users.status});return row;}}

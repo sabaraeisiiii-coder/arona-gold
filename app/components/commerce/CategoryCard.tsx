@@ -1,0 +1,1 @@
+import Link from 'next/link';import type { Category } from '../../types/category';export function CategoryCard({category}:{category:Category}){return <Link className="ds-card" href={`/products?category=${category.slug}`}><h3>{category.name}</h3>{category.description&&<p>{category.description}</p>}</Link>}

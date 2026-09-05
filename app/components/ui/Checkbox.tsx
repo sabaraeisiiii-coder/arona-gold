@@ -1,0 +1,2 @@
+import { useId,type InputHTMLAttributes } from 'react';
+export function Checkbox({label,error,id,className='',...props}:Omit<InputHTMLAttributes<HTMLInputElement>,'type'>&{label:string;error?:string}){const generated=useId(),fieldId=id??generated;return <label className={`ds-check ${className}`.trim()} htmlFor={fieldId}><input id={fieldId} type="checkbox" aria-invalid={Boolean(error)||undefined} {...props}/><span>{label}</span>{error&&<small className="ds-field-error">{error}</small>}</label>}

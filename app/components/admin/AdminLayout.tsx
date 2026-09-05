@@ -1,0 +1,1 @@
+import type { ReactNode } from 'react';import { AdminSidebar } from './AdminSidebar';import { AdminTopbar } from './AdminTopbar';export function AdminLayout({children}:{children:ReactNode}){return <div className="admin-shell" data-theme="admin"><AdminSidebar/><div className="admin-main"><AdminTopbar/><main className="admin-content">{children}</main></div></div>}

@@ -1,0 +1,2 @@
+import type { GoldPriceSnapshot } from '../../types/market';
+export function GoldPriceStrip({price,change,updatedAt,status}:GoldPriceSnapshot){const direction=change>=0?'▲':'▼';return <section className="price-strip" aria-label="قیمت لحظه‌ای طلا" data-status={status}><div><span>قیمت هر گرم طلای ۱۸ عیار</span><strong>{price.toLocaleString('fa-IR')} تومان</strong></div><span className={change>=0?'price-up':'price-down'}>{direction} {Math.abs(change).toLocaleString('fa-IR')}٪ امروز</span><small>آخرین بروزرسانی: {updatedAt}</small></section>}

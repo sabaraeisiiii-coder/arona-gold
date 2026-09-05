@@ -1,0 +1,2 @@
+import type { NextRequest } from 'next/server'; import { apiSuccess } from '@/app/lib/api-response'; import { withApiHandler } from '@/app/lib/api-handler'; import { AUTH_COOKIE,AuthService } from '@/app/auth/service';
+export const POST=withApiHandler(async(request,{requestId,logger})=>{const token=(request as NextRequest).cookies.get(AUTH_COOKIE)?.value;await new AuthService().logout(token,logger);const response=apiSuccess({loggedOut:true},{requestId});response.cookies.set(AUTH_COOKIE,'',{httpOnly:true,path:'/',sameSite:'lax',maxAge:0});return response;});

@@ -1,0 +1,1 @@
+import { Badge } from '../ui/Badge';export function StockStatus({stock}:{stock:number}){const low=stock>0&&stock<=3;return <Badge tone={stock===0?'error':low?'warning':'success'}>{stock===0?'ناموجود':low?`${stock.toLocaleString('fa-IR')} عدد؛ کم‌موجود`:`${stock.toLocaleString('fa-IR')} عدد موجود`}</Badge>}

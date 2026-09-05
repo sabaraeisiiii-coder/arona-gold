@@ -1,0 +1,1 @@
+import Link from 'next/link';export function MobileHeader(){return <nav className="mobile-header" aria-label="ناوبری موبایل"><Link href="/">خانه</Link><Link href="/products">محصولات</Link><Link href="/cart">سبد</Link><Link href="/account">حساب</Link></nav>}

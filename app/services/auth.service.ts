@@ -1,0 +1,2 @@
+import { apiRequest } from './api-client'; import type { AuthUser } from '@/app/auth/types';
+export const authService={sendOtp:(mobile:string)=>apiRequest<{expiresIn:number;debugOtp?:string}>('/auth/send-otp',{method:'POST',body:JSON.stringify({mobile})}),verifyOtp:(mobile:string,code:string)=>apiRequest<{user:AuthUser}>('/auth/verify-otp',{method:'POST',body:JSON.stringify({mobile,code})}),getMe:()=>apiRequest<AuthUser>('/auth/me'),logout:()=>apiRequest<{loggedOut:boolean}>('/auth/logout',{method:'POST'})};

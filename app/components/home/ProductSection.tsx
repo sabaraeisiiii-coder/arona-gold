@@ -1,0 +1,2 @@
+import Link from 'next/link';import type { Product } from '../../types/product';import { ProductGrid } from '../commerce/ProductGrid';
+export function ProductSection({title,products}:{title:string;products:Product[]}){return <section className="section"><div className="section__header"><div><span className="eyebrow">انتخاب‌های محبوب</span><h2>{title}</h2></div><Link href="/products">مشاهده همه ←</Link></div><ProductGrid products={products}/></section>}

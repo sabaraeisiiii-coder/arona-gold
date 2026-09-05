@@ -1,0 +1,1 @@
+import type { ReactNode } from 'react';export function FormSection({title,description,children}:{title:string;description?:string;children:ReactNode}){return <fieldset className="ds-card admin-form-section"><legend>{title}</legend>{description&&<p>{description}</p>}{children}</fieldset>}

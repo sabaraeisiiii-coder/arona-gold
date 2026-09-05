@@ -1,0 +1,1 @@
+export function CheckoutProgress({step,steps}:{step:number;steps:string[]}){return <ol className="checkout-steps" aria-label="مراحل تکمیل خرید">{steps.map((label,index)=><li className={index===step?'active':''} aria-current={index===step?'step':undefined} key={label}>{index+1}. {label}</li>)}</ol>}

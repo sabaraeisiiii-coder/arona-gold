@@ -1,0 +1,2 @@
+import { apiSuccess } from '@/app/lib/api-response'; import { withApiHandler } from '@/app/lib/api-handler'; import { validateJsonBody } from '@/app/validation/request'; import { sendOtpSchema } from '@/app/auth/schema'; import { AuthService } from '@/app/auth/service'; import { requestIdentity } from '@/app/auth/request';
+export const POST=withApiHandler(async(request,{requestId,logger})=>apiSuccess(await new AuthService().sendOtp((await validateJsonBody(request,sendOtpSchema)).mobile,requestIdentity(request),logger),{requestId}));

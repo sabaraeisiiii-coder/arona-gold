@@ -1,0 +1,1 @@
+import { Badge } from '../ui/Badge';import { STATUS,type Status } from '@/app/constants/status';export function StatusBadge({status}:{status:Status}){const config=STATUS[status];return <Badge variant={config.variant} className={`status-${status}`}>{config.label}</Badge>}

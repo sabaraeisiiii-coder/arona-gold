@@ -1,0 +1,1 @@
+export function Spinner({className='',label='در حال بارگذاری'}:{className?:string;label?:string}){return <span className={`ds-spinner ${className}`.trim()} role="status"><span className="sr-only">{label}</span></span>}

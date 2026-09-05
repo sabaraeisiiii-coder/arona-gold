@@ -1,0 +1,1 @@
+import type { ReactNode } from 'react';import { AccountLayout } from '../components/account/AccountLayout';export default function Layout({children}:{children:ReactNode}){return <section className="page"><AccountLayout>{children}</AccountLayout></section>}

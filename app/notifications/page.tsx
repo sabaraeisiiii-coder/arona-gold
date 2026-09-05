@@ -1,0 +1,2 @@
+import { StoreShell } from '../components/StoreShell';
+export default function Page(){return <StoreShell><section className="page"><header className="page-head"><span className="eyebrow">آرونا گلد</span><h1>اعلان‌ها</h1><p>پیام‌های سفارش، پرداخت و فروشگاه.</p></header><article className="ds-card prose"><h2>اعلان‌ها</h2><p>پیام‌های سفارش، پرداخت و فروشگاه.</p><p>تمام اطلاعات این بخش در مسیر مستقل خودش نگهداری می‌شود و برای اتصال به سرویس واقعی آماده است.</p></article></section></StoreShell>}

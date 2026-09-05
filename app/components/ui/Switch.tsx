@@ -1,0 +1,1 @@
+import { useId,type InputHTMLAttributes } from 'react';export function Switch({label,id,...props}:Omit<InputHTMLAttributes<HTMLInputElement>,'type'>&{label:string}){const generated=useId();return <label className="ds-switch" htmlFor={id??generated}><input id={id??generated} type="checkbox" role="switch" {...props}/><span aria-hidden="true"/><b>{label}</b></label>}

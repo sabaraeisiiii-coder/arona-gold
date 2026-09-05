@@ -1,0 +1,3 @@
+import type { ButtonHTMLAttributes,ReactNode } from 'react';import { Spinner } from './Spinner';
+type Props=ButtonHTMLAttributes<HTMLButtonElement>&{variant?:'primary'|'secondary'|'outline'|'ghost'|'danger';size?:'sm'|'md'|'lg';loading?:boolean;children?:ReactNode};
+export function Button({variant='primary',size='md',loading=false,className='',disabled,type='button',children,...props}:Props){return <button type={type} className={`ds-button ds-button-${variant} ds-button-${size} ${className}`.trim()} disabled={disabled||loading} aria-busy={loading||undefined} {...props}>{loading&&<Spinner/>}{children}</button>}

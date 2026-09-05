@@ -1,0 +1,5 @@
+.ds-container { width: min(var(--container-xl), calc(100% - 48px)); margin-inline: auto; }.ds-grid { display: grid; gap: var(--space-5); }.ds-product-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+.sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+@media(max-width:1023px){.ds-product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:767px){.ds-container{width:calc(100% - 32px)}.ds-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:479px){.ds-product-grid{grid-template-columns:1fr}}

@@ -1,0 +1,1 @@
+export function Skeleton({ width='100%', height=16 }: { width?: string|number; height?: string|number }) { return <span className="ds-skeleton" aria-hidden="true" style={{display:'block',width,height}}/>; }

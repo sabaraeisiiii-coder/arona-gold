@@ -1,0 +1,1 @@
+import { useId,type InputHTMLAttributes } from 'react';export function Radio({label,id,...props}:Omit<InputHTMLAttributes<HTMLInputElement>,'type'>&{label:string}){const generated=useId();return <label className="ds-check" htmlFor={id??generated}><input id={id??generated} type="radio" {...props}/><span>{label}</span></label>}
