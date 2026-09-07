@@ -1,25 +1,31 @@
 import Link from "next/link";
+import { customerNavigation, quickNavigation } from "../../data/navigation";
 export function Footer() {
   return (
-    <footer>
+    <footer className="store-footer">
       <div>
         <Link className="brand" href="/">
           آرونا <span>گلد</span>
           <i></i>
         </Link>
         <p>انتخابی مطمئن برای خرید آنلاین طلای اصیل.</p>
+        <Link href="/about">درباره آرونا گلد</Link>
       </div>
       <div>
-        <b>دسترسی سریع</b>
-        <Link href="/products">فروشگاه</Link>
-        <Link href="/orders">سفارش‌ها</Link>
+        <h2>دسترسی سریع</h2>
+        {quickNavigation.map(item => <Link key={item.label} href={item.href}>{item.label}</Link>)}
       </div>
       <div>
-        <b>پشتیبانی</b>
+        <h2>راهنمای مشتریان</h2>
+        {customerNavigation.map(item => <Link key={item.label} href={item.href}>{item.label}</Link>)}
+      </div>
+      <div>
+        <h2>ارتباط با ما</h2>
         <Link href="/contact">تماس با ما</Link>
-        <Link href="/terms">قوانین</Link>
+        <p>برای آشنایی با روند خرید و پاسخ پرسش‌های خود، راهنمای مشتریان را ببینید.</p>
+        <Link href="/faq">پرسش‌های خرید و پشتیبانی</Link>
       </div>
-      <small>تمامی حقوق برای آرونا گلد محفوظ است.</small>
+      <small className="store-footer__copyright">تمامی حقوق این وب‌سایت متعلق به آرونا گلد است.</small>
     </footer>
   );
 }

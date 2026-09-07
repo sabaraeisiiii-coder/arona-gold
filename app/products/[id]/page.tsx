@@ -11,7 +11,6 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { name } = this.req.query;
   const product =
     (await getProductBySlug(id)) ??
     (/^\d+$/.test(id) ? await getProductById(Number(id)) : undefined);

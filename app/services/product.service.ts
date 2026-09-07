@@ -8,6 +8,9 @@ export async function getProducts(query:ProductQuery={}){const{page=1,pageSize=N
 export async function getProductBySlug(slug:string){return fixtures.find(product=>visible(product)&&product.slug===slug)}
 export async function getProductById(id:number){return fixtures.find(product=>visible(product)&&product.id===id)}
 export async function getFeaturedProducts(limit=4){return(await getProducts({sort:'featured'})).filter(product=>product.featured).slice(0,limit)}
-export async function searchProducts(query:string){const value=query.trim().toLowerCase();if(!value)return[];return(await getProducts()).filter(product=>[product.name,product.category,product.sku,product.slug].some(field=>field.toLowerCase().includes(value)))}
+function normalizeSearch(value:string){return value.normalize('NFKC').toLowerCase().replace(/ي/g,'ی').replace(/ك/g,'ک').replace(/[۰-۹]/g,char=>String(char.charCodeAt(0)-1776)).replace(/[٠-٩]/g,char=>String(char.charCodeAt(0)-1632)).replace(/[\u064B-\u065F\u0670\u0640]/g,'').replace(/[\s\u200c]+/g,' ').trim()}
+/** Shared local search for the header and the existing search route. */
+export function filterProducts(query:string,products:Product[]=catalogSnapshot){const value=normalizeSearch(query);if(!value)return[];return products.filter(product=>visible(product)&&[product.name,product.category,product.sku,product.slug].some(field=>normalizeSearch(field??'').includes(value)))}
+export async function searchProducts(query:string){return filterProducts(query,await getProducts())}
 export async function getProductsByCategory(category:string){return getProducts({category})}
 export const productService={getProducts,getProductBySlug,getProductById,getFeaturedProducts,searchProducts,getProductsByCategory};

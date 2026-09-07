@@ -1,2 +1,2 @@
-import { AdminShell } from '../../../components/AdminShell';
-export default function Page(){return <AdminShell title="افزودن دسته‌بندی"><div className="admin-page-head"><div><h1>افزودن دسته‌بندی</h1><p>ثبت دسته‌بندی جدید.</p></div><button className="ds-button ds-button-primary">＋ افزودن مورد جدید</button></div><form className="ds-card admin-form"><label>عنوان<input placeholder="عنوان را وارد کنید"/></label><label>وضعیت<select><option>فعال</option><option>غیرفعال</option></select></label><label>توضیحات<textarea rows={5}/></label><button className="ds-button ds-button-primary" type="submit">ذخیره تغییرات</button></form></AdminShell>}
+import { AdminRecordScreen } from '../../../components/admin/AdminRecordScreen';
+export default function Page() { return <AdminRecordScreen resource="categories" title="افزودن دسته‌بندی" mode="new" />; }
