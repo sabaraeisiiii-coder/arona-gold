@@ -1,2 +1,2 @@
-import type { ReactNode } from 'react';import type { Product } from '../../types/product';import { ProductCard } from './ProductCard';
-export function ProductGrid({products,emptyState=null}:{products:Product[];emptyState?:ReactNode}){if(!products.length)return <>{emptyState}</>;return <div className="ds-grid ds-product-grid">{products.map(product=><ProductCard product={product} key={product.id}/>)}</div>}
+import type { ReactNode } from 'react';import type { Product } from '../../types/product';import { ProductCard } from './ProductCard';import { EmptyState } from '../ui/EmptyState';
+export function ProductGrid({products,emptyState=<EmptyState title="محصولی برای نمایش وجود ندارد" />}:{products:Product[];emptyState?:ReactNode}){if(!products.length)return <>{emptyState}</>;return <div className="ds-grid ds-product-grid">{products.map(product=><ProductCard product={product} key={product.id}/>)}</div>}

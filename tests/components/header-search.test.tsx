@@ -50,3 +50,13 @@ describe('header search', () => {
     expect(screen.queryByRole('searchbox')).toBeNull();
   });
 });
+
+it('submits the typed query to the existing search route and disables blank submission', () => {
+  const input = openSearch();
+  const submit = screen.getByRole('button', { name: 'جستجو در فروشگاه' });
+  expect(submit).toHaveProperty('disabled', true);
+  fireEvent.change(input, { target: { value: 'طلا' } });
+  expect(submit).toHaveProperty('disabled', false);
+  expect(input.getAttribute('name')).toBe('q');
+  expect(input.closest('form')?.getAttribute('action')).toBe('/search');
+});

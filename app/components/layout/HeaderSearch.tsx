@@ -5,6 +5,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { filterProducts } from "../../services/product.service";
 import { formatMoney, formatNumber } from "../../lib/format";
 import { ProductMedia } from "../commerce/ProductMedia";
+import { SearchField } from "../ui/SearchField";
+import { Button } from "../ui/Button";
 import "../../styles/header-search.css";
 
 export function HeaderSearch() {
@@ -46,8 +48,8 @@ export function HeaderSearch() {
         aria-controls={open ? resultsId : undefined} onClick={() => setOpen(value => !value)}>
         {open ? "×" : "⌕"}
       </button>
-      {open && <div className="header-search__panel" role="search" aria-label="جستجوی محصولات">
-        <input ref={input} type="search" className="ds-input header-search__input"
+      {open && <form action="/search" className="header-search__panel" role="search" aria-label="جستجوی محصولات">
+        <SearchField inputRef={input} name="q" className="header-search__input"
           value={query} onChange={event => setQuery(event.target.value)}
           aria-label="جستجوی محصول" aria-controls={resultsId} autoComplete="off"
           placeholder="نام محصول، کد یا دسته‌بندی…"
@@ -57,6 +59,7 @@ export function HeaderSearch() {
               root.current?.querySelector<HTMLAnchorElement>(".header-search__result")?.focus();
             }
           }} />
+        <Button type="submit" variant="outline" disabled={!query.trim()}>جستجو در فروشگاه</Button>
         <div className="header-search__dropdown" id={resultsId}>
           <p className="header-search__summary" role="status">
             {!query.trim() ? "نام محصول، کد یا دسته‌بندی را وارد کنید" : results.length ? `${formatNumber(results.length)} محصول پیدا شد` : "محصولی پیدا نشد"}
@@ -75,7 +78,7 @@ export function HeaderSearch() {
             </li>)}
           </ul>}
         </div>
-      </div>}
+      </form>}
     </div>
   );
 }

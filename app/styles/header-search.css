@@ -34,3 +34,8 @@
   .header-search__panel { position: static; }
   .header-search__dropdown { top: calc(100% + 8px); }
 }
+
+.header-search__panel { display: flex; align-items: center; gap: 8px; }
+.header-search__input { flex: 1; min-width: 0; }
+.header-search__panel > .ds-button { flex-shrink: 0; font-size: 12px; padding-inline: 8px; }
+@media (max-width: 479px) { .header-search__panel { flex-wrap: wrap; } .header-search__panel > .ds-button { width: 100%; } }

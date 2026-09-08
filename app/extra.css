@@ -219,15 +219,6 @@
   width: 100%;
   margin-top: var(--space-3);
 }
-.modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-}
-.modal-head h2 {
-  margin: 0;
-}
 .link-button {
   border: 0;
   background: transparent;

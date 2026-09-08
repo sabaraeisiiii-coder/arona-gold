@@ -1,4 +1,11 @@
 'use client';
-import Link from 'next/link';import { StoreShell } from '../components/StoreShell';import { Badge } from '../components/ui/Badge';import { useAppStore } from '../store/AppStore';
-const labels={paid:'پرداخت شده',processing:'در حال آماده‌سازی',shipped:'ارسال شده',delivered:'تحویل شده',cancelled:'لغو شده'} as const;
-export default function OrdersPage(){const{orders}=useAppStore();return <StoreShell><section className="page"><header className="page-head"><span className="eyebrow">حساب من</span><h1>سفارش‌ها</h1><p>تاریخچه خرید و وضعیت ارسال سفارش‌های شما.</p></header><div className="stack">{orders.map(o=><Link className="ds-card order-card" href={`/orders/${o.id}`} key={o.id}><div><strong>{o.id}</strong><small>{o.date} · {o.items.length.toLocaleString('fa-IR')} محصول</small></div><Badge tone={o.status==='cancelled'?'error':o.status==='paid'||o.status==='delivered'?'success':'info'}>{labels[o.status]}</Badge><strong>{o.amount.toLocaleString('fa-IR')} تومان</strong></Link>)}</div></section></StoreShell>}
+import Link from 'next/link';
+import { StoreShell } from '../components/StoreShell';
+import { PageHeader } from '../components/layout/PageHeader';
+import { OrderCard } from '../components/account/OrderCard';
+import { EmptyState } from '../components/ui/EmptyState';
+import { useAppStore } from '../store/AppStore';
+export default function OrdersPage() {
+  const { orders } = useAppStore();
+  return <StoreShell><section className="page"><PageHeader eyebrow="حساب من" title="سفارش‌ها" description="تاریخچه خرید و وضعیت ارسال سفارش‌های شما." /><div className="stack">{orders.length ? orders.map(order => <OrderCard key={order.id} order={order} />) : <EmptyState title="هنوز سفارشی ثبت نشده است" action={<Link href="/products">مشاهده محصولات</Link>} />}</div></section></StoreShell>;
+}

@@ -115,3 +115,15 @@ describe('admin workspace', () => {
     expect(screen.getByText('محصولات: مشاهده')).toBeTruthy();
   });
 });
+
+it('validates an admin draft and exposes a saved edit through the existing view screen', () => {
+  const view = render(wrap(<AdminRecordScreen resource="products" id="1" mode="edit" title="ویرایش" />));
+  fireEvent.change(screen.getByLabelText('نام محصول'), { target: { value: '' } });
+  fireEvent.click(screen.getByRole('button', { name: 'ذخیره پیش‌نویس آزمایشی' }));
+  expect(screen.getByRole('alert').textContent).toContain('نام محصول');
+  fireEvent.change(screen.getByLabelText('نام محصول'), { target: { value: 'نام ویرایش‌شده' } });
+  fireEvent.click(screen.getByRole('button', { name: 'ذخیره پیش‌نویس آزمایشی' }));
+  view.rerender(wrap(<AdminRecordScreen resource="products" id="1" title="مشاهده" />));
+  expect(screen.getByText('نام ویرایش‌شده')).toBeTruthy();
+  expect(screen.getByRole('link', { name: 'ویرایش پیش‌نویس محصول' }).getAttribute('href')).toBe('/admin/products/1/edit');
+});

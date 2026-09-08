@@ -16,7 +16,8 @@ export default function ProductDetailScreen({
   product: Product;
   relatedProducts: Product[];
 }) {
-  const { addToCart, toggleWishlist, wishlist } = useAppStore();
+  const { addToCart, toggleWishlist, wishlist, cart } = useAppStore();
+  const quantity = cart.find(item => item.productId === product.id)?.quantity ?? 0;
   const [addedProductId, setAddedProductId] = useState<number | null>(null);
   const added = addedProductId === product.id;
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -28,6 +29,7 @@ export default function ProductDetailScreen({
   }, []);
 
   function handleAddToCart() {
+    if (quantity >= product.stock) return;
     addToCart(product.id);
     setAddedProductId(product.id);
     if (feedbackTimer.current !== null) clearTimeout(feedbackTimer.current);
@@ -62,7 +64,7 @@ export default function ProductDetailScreen({
             <p className="muted-copy">{product.description}</p>
             <div className="inline-actions">
               <Button
-                disabled={!product.stock}
+                disabled={quantity >= product.stock}
                 onClick={handleAddToCart}
                 aria-live="polite"
               >
