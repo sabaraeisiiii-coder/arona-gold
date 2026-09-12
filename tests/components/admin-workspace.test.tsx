@@ -20,6 +20,21 @@ beforeEach(() => {
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
 describe('admin workspace', () => {
+  it.each(['orders', 'payments'] as const)('keeps every %s field and detail action in its responsive row', resource => {
+    render(wrap(<AdminResourcePage resource={resource} title={resource} description="تست" />));
+    const records = initialAdminRecords()[resource];
+    const rows = within(screen.getByRole('list', { name: resource === 'orders' ? 'فهرست سفارش‌ها' : 'فهرست پرداخت‌ها' })).getAllByRole('listitem');
+    expect(rows).toHaveLength(records.length);
+    rows.forEach((row, index) => {
+      for (const field of resourceConfig[resource].fields) {
+        const value = records[index][field.key];
+        if (value) expect(row.textContent).toContain(value);
+      }
+      expect(within(row).getByRole('link', { name: 'مشاهده' }).getAttribute('href'))
+        .toBe(`/admin/${resource}/${encodeURIComponent(records[index].id)}`);
+    });
+  });
+
   it('renders every existing resource without placeholder links', () => {
     for (const resource of Object.keys(resourceConfig) as AdminResource[]) {
       const view = render(wrap(<AdminResourcePage resource={resource} title={resource} description="تست" />));

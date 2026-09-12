@@ -3,12 +3,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 import type { AdminResource } from '../../mock/admin';
 import { products } from '../../data/mock/products';
-import { formatMoney, formatNumber } from '../../lib/format';
+import { formatNumber } from '../../lib/format';
 import { useUiStore } from '../../store/UiStore';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
-import { Badge, type BadgeVariant } from '../ui/Badge';
 import { Modal } from '../ui/Modal';
 import { ProductMedia } from '../commerce/ProductMedia';
 import { DataTable, type Column } from './DataTable';
@@ -16,15 +15,11 @@ import { AdminPageHeader } from './AdminPageHeader';
 import { ConfirmDialog } from './ConfirmDialog';
 import { AdminRecordForm } from './AdminRecordForm';
 import { useAdminDrafts } from './AdminDrafts';
-import { resourceConfig, displayValue, normalizeAdminSearch, type AdminRecord } from './resource-config';
+import { resourceConfig, normalizeAdminSearch, type AdminRecord } from './resource-config';
+import { AdminRecordValue } from './AdminRecordValue';
+import { AdminFinancialList } from './AdminFinancialList';
 
 const statuses: Record<string, string> = { active: 'فعال', inactive: 'غیرفعال', draft: 'پیش‌نویس', out_of_stock: 'ناموجود' };
-function tone(value: string): BadgeVariant {
-  if (/ناموفق|مسدود|ناموجود|expired|منقضی/.test(value)) return 'error';
-  if (/کم|پیش|انتظار|pending/.test(value)) return 'warning';
-  if (/^فعال$|^active$|پرداخت شده|تأیید شده|منتشر شده/.test(value)) return 'success';
-  return 'neutral';
-}
 export function AdminResourcePage({ resource, title, description }: { resource: AdminResource; title: string; description: string }) {
   const { records, save, remove } = useAdminDrafts();
   const { notify } = useUiStore();
@@ -39,9 +34,7 @@ export function AdminResourcePage({ resource, title, description }: { resource: 
     && (!status || row.status === status) && Object.entries(filters).every(([key, value]) => normalizeAdminSearch(row[key] || '').includes(normalizeAdminSearch(value))));
   const columns: Column<AdminRecord>[] = config.fields
     .filter(field => resource !== 'products' || !['slug', 'wage', 'image', 'description', 'metaTitle', 'metaDescription'].includes(field.key))
-    .map(field => ({ key: field.key, header: field.label, render: row => field.key === 'status'
-      ? <Badge variant={tone(row.status || '')}>{displayValue(statuses[row.status] || row.status)}</Badge>
-      : <span className="admin-cell-text">{field.key === 'price' && row.price ? formatMoney(Number(row.price)) : displayValue(row[field.key])}</span> }));
+    .map(field => ({ key: field.key, header: field.label, render: row => <AdminRecordValue field={field.key} value={row[field.key]} /> }));
   if (resource === 'products') columns.unshift({ key: 'image', header: 'تصویر', render: row => {
     const product = products.find(product => String(product.id) === row.id);
     return product ? <ProductMedia product={product} className="admin-product-thumbnail" sizes="48px" /> : <span className="admin-muted">ثبت نشده</span>;
@@ -64,13 +57,14 @@ export function AdminResourcePage({ resource, title, description }: { resource: 
         <Button variant="secondary" onClick={() => { setQuery(''); setStatus(''); setFilters({}); }}>پاک کردن فیلترها</Button>
       </div>
       <p className="admin-result-count" role="status">{formatNumber(filtered.length)} مورد از {formatNumber(rows.length)}</p>
-      <DataTable columns={columns} rows={filtered} rowKey={row => row.id}
+      {resource === 'orders' || resource === 'payments' ? <AdminFinancialList resource={resource} rows={filtered}
+        emptyTitle={rows.length ? 'موردی مطابق جستجو پیدا نشد' : 'هنوز رکوردی ثبت نشده است'} /> : <DataTable columns={columns} rows={filtered} rowKey={row => row.id}
         emptyTitle={rows.length ? 'موردی مطابق جستجو پیدا نشد' : 'هنوز رکوردی ثبت نشده است'}
         actions={config.readOnly && !config.detail ? undefined : row => <div className="table-actions">
           {config.detail ? <Link className="ds-button ds-button-secondary" href={`/admin/${resource}/${encodeURIComponent(row.id)}`}>{config.readOnly || resource === 'products' ? 'مشاهده' : 'ویرایش'}</Link>
             : <Button variant="secondary" onClick={() => setEditing(row)}>ویرایش آزمایشی</Button>}
           {!config.readOnly && <Button variant="danger" onClick={() => setDeleting(row)}>حذف آزمایشی</Button>}
-        </div>} />
+        </div>} />}
     </section>
     <Modal open={Boolean(editing)} title="ویرایش پیش‌نویس آزمایشی" onClose={() => setEditing(null)}>
       {editing && <AdminRecordForm key={editing.id} resource={resource} record={editing} onCancel={() => setEditing(null)} onSave={record => { save(resource, record); setEditing(null); notify('پیش‌نویس آزمایشی ذخیره شد'); }} />}

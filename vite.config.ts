@@ -52,6 +52,26 @@ export default defineConfig(async () => {
     plugins: [
       vinext(),
       sites(),
+      {
+        name: 'vinext-client-chunk-compatibility',
+        enforce: 'post',
+        configEnvironment(name: string) {
+          if (name !== 'client') return;
+          // Rolldown 1.0.1 drops the navigation/cache-busting namespace when
+          // collapsing dynamic imports into the browser entry. Keep those
+          // loads until the stock build passes scripts/runtime-smoke.mjs.
+          // Preserve minification, tree shaking, prefetch, and chunk merging.
+          return {
+            build: {
+              rolldownOptions: {
+                experimental: {
+                  chunkOptimization: { avoidRedundantChunkLoads: false },
+                },
+              },
+            },
+          };
+        },
+      },
       cloudflare({
         viteEnvironment: { name: 'rsc', childEnvironments: ['ssr'] },
         config: localBindingConfig,

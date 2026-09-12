@@ -130,6 +130,27 @@
 .admin-layout .ds-table tbody tr:hover { background: var(--surface-secondary); }
 .admin-layout .ds-table tbody tr:last-child td { border-bottom: 0; }
 .admin-layout .admin-cell-text { display: block; min-width: 90px; max-width: 260px; overflow-wrap: anywhere; }
+.admin-layout .admin-data-table .admin-cell-text { min-width: 90px; }
+.admin-layout .admin-data-table .ds-table { min-width: 0; }
+.admin-layout .admin-data-table td { vertical-align: top; }
+.admin-layout .admin-cell-content, .admin-layout .admin-cell-stack, .admin-layout .admin-meta-item { min-width: 0; }
+.admin-layout .admin-cell-stack { display: grid; gap: var(--space-3); }
+.admin-layout .admin-meta-item { display: grid; justify-items: start; gap: var(--space-1); }
+.admin-layout .admin-meta-label, .admin-layout .admin-mobile-label { color: var(--muted-foreground); font-size: var(--font-size-xs); font-weight: var(--font-weight-regular); }
+.admin-layout .admin-mobile-label { display: none; }
+.admin-layout .admin-value-primary { font-weight: var(--font-weight-semibold); color: var(--foreground); }
+.admin-layout .admin-value-amount { font-weight: var(--font-weight-semibold); color: var(--foreground); font-variant-numeric: tabular-nums; word-break: normal; overflow-wrap: normal; }
+.admin-layout .admin-data-table .admin-value-amount { min-width: 140px; }
+.admin-layout .admin-value-secondary { color: var(--muted-foreground); font-size: var(--font-size-xs); }
+.admin-layout .admin-actions-cell { width: 1%; }
+.admin-layout .admin-data-table .table-actions { justify-content: flex-end; }
+.admin-layout .ds-badge { display: inline-flex; align-items: center; min-height: var(--space-6); max-width: 100%; padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); line-height: var(--line-height-normal); white-space: normal; overflow-wrap: anywhere; }
+.admin-layout .admin-details > div { min-width: 0; padding: var(--space-4); background: var(--surface-secondary); border-radius: var(--radius-sm); }
+.admin-layout .admin-details .admin-cell-text { min-width: 0; max-width: none; }
+.admin-layout .admin-details > [data-field="address"] { grid-column: 1 / -1; }
+.admin-layout .admin-details > :is([data-field="amount"], [data-field="price"]) .admin-value-amount { font-size: var(--font-size-lg); }
+.admin-layout .admin-tabs { overscroll-behavior-x: contain; }
+.admin-layout .admin-data-table:focus-visible { outline: 2px solid var(--primary); outline-offset: var(--space-1); }
 .admin-layout .admin-product-thumbnail { width: 48px; height: 48px; min-height: 0; border-radius: var(--radius-sm); }
 .admin-layout .admin-product-thumbnail.product-art::before { width: 24px; height: 24px; border-width: 3px; box-shadow: none; }
 .admin-layout .admin-product-thumbnail.product-art span { display: none; }
@@ -202,9 +223,45 @@
 }
 
 .admin-layout .admin-top-title { min-width: 0; flex-wrap: wrap; }
+/* Financial records use groups, not table columns. Metadata gets its own line. */
+.admin-layout .admin-financial-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); }
+.admin-layout .admin-financial-record { min-width: 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); }
+.admin-layout .admin-financial-record:hover { background: var(--table-row-hover); }
+.admin-layout .admin-financial-main { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; gap: var(--space-5); padding: var(--space-5); }
+.admin-layout .admin-financial-group, .admin-layout .admin-financial-secondary { margin: 0; min-width: 0; display: grid; gap: var(--space-3); }
+.admin-layout .admin-financial-field { min-width: 0; }
+.admin-layout .admin-financial-field dt { margin-bottom: var(--space-1); font-size: var(--font-size-xs); color: var(--muted-foreground); }
+.admin-layout .admin-financial-field dd { margin: 0; }
+.admin-layout .admin-financial-field .admin-cell-text { min-width: 0; max-width: none; }
+.admin-layout .admin-financial-nowrap :is(dd, .admin-cell-text, bdi, .ds-badge) { white-space: nowrap; overflow-wrap: normal; word-break: normal; }
+.admin-layout .admin-financial-nowrap .ds-badge { width: auto; height: auto; min-height: var(--space-6); }
+.admin-layout .admin-financial-secondary { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--space-4) var(--space-5); border-top: 1px solid var(--border); background: var(--surface-secondary); border-radius: 0 0 var(--radius-md) var(--radius-md); }
+.admin-layout .admin-financial-actions { justify-self: end; }
+@media (min-width: 1200px) {
+  .admin-layout .admin-financial-main { grid-template-columns: minmax(140px, 1.1fr) minmax(130px, 1fr) minmax(140px, 1fr) minmax(100px, .8fr) minmax(90px, .7fr) auto; gap: var(--space-3); }
+}
+@media (max-width: 600px) {
+  .admin-layout .admin-financial-main, .admin-layout .admin-financial-secondary { grid-template-columns: minmax(0, 1fr); padding: var(--space-4); }
+  .admin-layout .admin-financial-actions { justify-self: stretch; }
+  .admin-layout .admin-financial-actions .ds-button { width: 100%; }
+}
 .admin-layout .admin-top .inline-actions { margin-top: 0; }
 .admin-layout .ds-modal-footer { padding-inline: 0; }
 @media (max-width: 767px) {
-  .admin-layout .table-actions .ds-button { min-height: 44px; }
+  .admin-layout .table-actions .ds-button { min-height: var(--control-height-md); }
   .admin-layout .admin-page-head > .inline-actions { width: 100%; }
+}
+/* Preserve a semantic table and every cell; present each row vertically on phones. */
+@media (max-width: 600px) {
+  .admin-layout .admin-data-table .ds-table, .admin-layout .admin-data-table tbody { display: block; width: 100%; }
+  .admin-layout .admin-data-table thead { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); }
+  .admin-layout .admin-data-table tbody tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); padding-block: var(--space-5); border-bottom: 1px solid var(--border); }
+  .admin-layout .admin-data-table tbody tr:first-child { padding-top: var(--space-2); }
+  .admin-layout .admin-data-table tbody tr:last-child { border-bottom: 0; }
+  .admin-layout .admin-data-table .ds-table td { display: block; min-width: 0; width: auto; padding: 0; border: 0; }
+  .admin-layout .admin-data-table td:first-child, .admin-layout .admin-data-table .admin-actions-cell { grid-column: 1 / -1; }
+  .admin-layout .admin-mobile-label { display: block; margin-bottom: var(--space-2); }
+  .admin-layout .admin-data-table .admin-cell-text { min-width: 0; max-width: none; }
+  .admin-layout .admin-data-table .table-actions { justify-content: flex-start; }
+  .admin-layout .admin-data-table .table-actions .ds-button { flex: 1; }
 }

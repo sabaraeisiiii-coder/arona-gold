@@ -5,6 +5,7 @@ import { AdminPageHeader } from './AdminPageHeader';
 import { KpiCard } from './KpiCard';
 import { DataTable } from './DataTable';
 import { formatNumber } from '../../lib/format';
+import { AdminRecordValue } from './AdminRecordValue';
 
 export function AdminDashboard() {
   const { records } = useAdminDrafts();
@@ -18,10 +19,10 @@ export function AdminDashboard() {
     <div className="admin-dashboard-columns">
       <section className="ds-card admin-detail-card"><div className="admin-section-heading"><h2>آخرین سفارش‌ها</h2><Link href="/admin/orders">همه سفارش‌ها ←</Link></div>
         <DataTable rows={records.orders.slice(0, 5)} rowKey={row => row.id} columns={[
-          { key: 'number', header: 'شماره سفارش', render: row => <Link href={`/admin/orders/${encodeURIComponent(row.id)}`}>{row.number}</Link> },
-          { key: 'customer', header: 'مشتری', render: row => row.customer },
-          { key: 'amount', header: 'مبلغ', render: row => row.amount },
-          { key: 'status', header: 'وضعیت', render: row => row.status },
+          { key: 'number', header: 'شماره سفارش', render: row => <Link href={`/admin/orders/${encodeURIComponent(row.id)}`}><AdminRecordValue field="number" value={row.number} /></Link> },
+          { key: 'customer', header: 'مشتری', render: row => <AdminRecordValue field="customer" value={row.customer} /> },
+          { key: 'amount', header: 'مبلغ', render: row => <AdminRecordValue field="amount" value={row.amount} /> },
+          { key: 'status', header: 'وضعیت', render: row => <AdminRecordValue field="status" value={row.status} /> },
         ]} />
       </section>
       <section className="ds-card admin-detail-card"><div className="admin-section-heading"><h2>فعالیت‌های اخیر</h2><Link href="/admin/audit">لاگ تغییرات ←</Link></div>

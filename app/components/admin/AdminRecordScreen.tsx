@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import type { AdminResource } from '../../mock/admin';
 import { products } from '../../data/mock/products';
-import { formatMoney } from '../../lib/format';
 import { useUiStore } from '../../store/UiStore';
 import { AdminPageHeader } from './AdminPageHeader';
 import { AdminRecordForm } from './AdminRecordForm';
 import { useAdminDrafts } from './AdminDrafts';
-import { resourceConfig, displayValue, matchingOrder, type AdminRecord } from './resource-config';
+import { resourceConfig, matchingOrder, type AdminRecord } from './resource-config';
+import { AdminRecordValue } from './AdminRecordValue';
 import { AdminTabs } from './AdminTabs';
 import { DataTable } from './DataTable';
 import { Button } from '../ui/Button';
@@ -44,7 +44,7 @@ export function AdminRecordScreen({ resource, id, title, mode = 'view' }: {
               { key: 'quantity', header: 'تعداد', render: item => item.quantity.toLocaleString('fa-IR') },
               { key: 'price', header: 'قیمت ثبت‌شده در سفارش', render: () => 'ثبت نشده' },
             ]} emptyTitle="اقلام این سفارش در داده‌های فعلی ثبت نشده است" />
-              : <dl className="admin-details">{config.fields.filter(field => (field.group || 'اطلاعات') === tab).map(field => <div key={field.key}><dt>{field.label}</dt><dd>{field.key === 'price' && record?.price ? formatMoney(Number(record.price)) : displayValue(record?.[field.key])}</dd></div>)}</dl>}
+              : <dl className="admin-details">{config.fields.filter(field => (field.group || 'اطلاعات') === tab).map(field => <div key={field.key} data-field={field.key}><dt>{field.label}</dt><dd><AdminRecordValue field={field.key} value={record?.[field.key]} /></dd></div>)}</dl>}
           </section>
         </AdminTabs>
         {resource === 'orders' && <section className="ds-card admin-detail-card"><h2>وضعیت و یادداشت داخلی</h2><p className="admin-muted">تاریخچه تکمیلی و سرویس ثبت یادداشت در پروژه موجود نیست.</p><Button disabled variant="secondary">تغییر وضعیت سفارش — در دسترس نیست</Button></section>}
